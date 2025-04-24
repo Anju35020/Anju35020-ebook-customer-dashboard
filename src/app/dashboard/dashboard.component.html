@@ -1,41 +1,36 @@
-<!-- src/app/dashboard/dashboard.component.html -->
+<div class="container mx-auto p-20">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Welcome to the E-Book Dashboard</h1>
+    <button (click)="logout()" class="flex items-center gap-2 text-red-600 hover:text-red-800">
+      <i class="fa fa-sign-out"></i> Logout
+    </button>
+  </div>
 
-<div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-4">Welcome to the E-Book Dashboard</h1>
-  
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-      <!-- Loop through books and display them -->
-      <div *ngFor="let book of books" class="card bg-white shadow-lg rounded-lg overflow-hidden">
-        <img [src]="book.coverUrl" alt="{{ book.title }}" class="w-full h-48 object-cover">
-        <div class="p-4">
-          <h2 class="text-xl font-semibold">{{ book.title }}</h2>
-          <p class="text-sm text-gray-600">{{ book.author }}</p>
-          <p class="text-sm text-gray-600">{{ book.category }}</p>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div *ngFor="let book of books" class="card bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="flex justify-center items-center h-48 bg-gray-100">
+        <img [src]="book.coverUrl" alt="{{ book.title }}" class="object-cover h-full">
+      </div>
+      <div class="p-4">
+        <h2 class="text-xl font-semibold">{{ book.title }}</h2>
+        <p class="text-sm text-gray-600">{{ book.author }}</p>
+        <p class="text-sm text-gray-600">{{ book.category }}</p>
+        <div class="flex justify-between">
           <p *ngIf="book.price" class="text-sm text-gray-600 font-bold">{{ book.price | currency }}</p>
-  
-          <!-- If book is purchased, show 'Read' button -->
-          <!-- <div *ngIf="localStorage.getItem('book-' + book.id + '-purchased') === 'true'"> -->
-            <div>
-            <button
-              (click)="readBook(book.id)"
-              class="mt-2 bg-blue-500 text-white rounded px-4 py-2"
-            >
-              Read
-            </button>
-          </div>
-  
-          <!-- If book is not purchased, show 'Purchase' button -->
-          <!-- <div *ngIf="localStorage.getItem('book-' + book.id + '-purchased') !== 'true'"> -->
-            <div>
-            <button
-              (click)="purchaseBook(book.id)"
-              class="mt-2 bg-green-500 text-white rounded px-4 py-2"
-            >
-              Purchase
-            </button>
-          </div>
+          <p *ngIf="book.isPurchased" class="text-sm text-green-600">Purchased</p>
+        </div>
+        <div class="flex justify-between items-center mt-2">
+          <button (click)="readBook(book.id)" [disabled]="!book.isPurchased"
+            class="bg-blue-500 text-white rounded px-3 py-2">
+            {{ book.isPurchased ? 'Read' : 'Purchase to Read' }}
+          </button>
+
+          <button *ngIf="!book.isPurchased" (click)="purchaseBook(book.id)"
+            class="bg-green-500 text-white rounded px-2 py-2">
+            Purchase
+          </button>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

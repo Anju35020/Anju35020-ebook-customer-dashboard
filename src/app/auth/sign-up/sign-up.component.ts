@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,7 +13,10 @@ import { CommonModule } from '@angular/common';
 export class SignUpComponent {
   signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router,
+        private toastService: ToastrService
+    
+  ) {
     this.initForm();
   }
 
@@ -33,7 +37,7 @@ export class SignUpComponent {
     }
     if (this.signupForm.valid) {
       localStorage.setItem('user', JSON.stringify(this.signupForm.value));
-      alert('Account created!');
+      this.toastService.success('Account created!');
       this.router.navigate(['/login']);
     }
   }

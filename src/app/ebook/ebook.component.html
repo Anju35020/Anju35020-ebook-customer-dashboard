@@ -1,0 +1,46 @@
+<div *ngIf="bookContent?.pages?.length > 0" class="p-20 space-y-4">
+  <div class="flex justify-between items-center mb-6">
+  <div class="flex items-center space-x-3 mb-4">
+    <div class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-100 cursor-pointer transition"
+     routerLink="/dashboard">
+      <i class="fa fa-arrow-left text-xl cursor-pointer text-gray-600 hover:text-blue-600"></i>
+    </div>
+    <h1 class="text-2xl font-bold">Reading: {{ bookContent.title }}</h1>
+  </div>  
+  <button (click)="logout()" class="flex items-center gap-2 text-red-600 hover:text-red-800">
+    <i class="fa fa-sign-out"></i> Logout
+  </button>
+</div>
+  <!-- <h1 class="text-xl font-bold mb-2">E-Book: {{ bookContent.title }}</h1> -->
+
+  <div class="mt-4 flex justify-between">
+    <p><strong>Category: {{bookContent.category}}</strong></p>
+    <p><strong>Progress:</strong> {{ categoryProgress.toFixed(2) }}%</p>
+  </div>
+
+  <div class="border p-4 rounded bg-gray-100">
+    <!-- <h2 class="text-lg font-semibold mb-2">Lines:</h2> -->
+    <div *ngFor="let line of bookContent.pages[currentPage].split('\n'); let i = index">
+      <p 
+        (click)="onLineChange(i)" 
+        [class.text-black-600]="i === currentLine" 
+        class="">
+        <strong> {{ line }}</strong>
+      </p>
+    <p>{{dummyContent}}</p>
+    <p></p>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <button (click)="prevPage()" [disabled]="currentPage === 0" class="px-4 py-2 bg-blue-500 text-white rounded">
+      Prev Page
+    </button>
+
+    <span class="font-medium">Page {{ currentPage + 1 }} of {{ bookContent.pages.length }}</span>
+
+    <button (click)="nextPage()" [disabled]="currentPage === bookContent.pages.length - 1" class="px-4 py-2 bg-blue-500 text-white rounded">
+      Next Page
+    </button>
+  </div>
+</div>
